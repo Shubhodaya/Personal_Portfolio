@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React, { Suspense,useEffect, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import {
   Decal,
@@ -17,8 +17,8 @@ const Ball = (props) => {
     <Float speed={1.75} rotationIntensity={1} floatIntensity={2}>
       <ambientLight intensity={0.25} />
       <directionalLight position={[0, 0, 0.05]} />
-      <mesh castShadow receiveShadow scale={2.75}>
-        <icosahedronGeometry args={[1, 1]} />
+      <mesh castShadow receiveShadow scale={props.isMobile ? 2.5 : 2.75}>
+        <icosahedronGeometry args={[1, 1]}   />
         <meshStandardMaterial
           color='#fff8eb'
           polygonOffset
@@ -28,7 +28,7 @@ const Ball = (props) => {
         <Decal
           position={[0, 0, 1]}
           rotation={[2 * Math.PI, 0, 6.25]}
-          scale={1}
+          scale={ 1}
           map={decal}
           flatShading
         />
@@ -38,6 +38,30 @@ const Ball = (props) => {
 };
 
 const BallCanvas = ({ icon }) => {
+
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    // Add a listener for changes to the screen size
+    const mediaQuery = window.matchMedia("(max-width: 500px)");
+
+    // Set the initial value of the `isMobile` state variable
+    setIsMobile(mediaQuery.matches);
+
+    // Define a callback function to handle changes to the media query
+    const handleMediaQueryChange = (event) => {
+      setIsMobile(event.matches);
+    };
+
+    // Add the callback function as a listener for changes to the media query
+    mediaQuery.addEventListener("change", handleMediaQueryChange);
+
+    // Remove the listener when the component is unmounted
+    return () => {
+      mediaQuery.removeEventListener("change", handleMediaQueryChange);
+    };
+  }, []);
+
   return (
     <Canvas
       frameloop='demand'
@@ -46,7 +70,7 @@ const BallCanvas = ({ icon }) => {
     >
       <Suspense fallback={<CanvasLoader />}>
         <OrbitControls enableZoom={false} />
-        <Ball imgUrl={icon} />
+        <Ball imgUrl={icon} isMobile={isMobile} />
       </Suspense>
 
       <Preload all />
