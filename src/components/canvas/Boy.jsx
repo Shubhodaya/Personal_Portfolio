@@ -1,7 +1,7 @@
 import React, { Suspense, useEffect, useState,useRef } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Preload, useGLTF ,useFBX,useAnimations} from "@react-three/drei";
-import { useFrame } from "@react-three/fiber";
+
 
 
 

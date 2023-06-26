@@ -26,7 +26,7 @@ import {
     creator,
     web,
     javascript,
-    typescript,
+  
     html,
     css,
     reactjs,
@@ -92,10 +92,7 @@ import {
       name: "JavaScript",
       icon: javascript,
     },
-    {
-      name: "TypeScript",
-      icon: typescript,
-    },
+ 
     {
       name: "React JS",
       icon: reactjs,
